@@ -1,0 +1,10 @@
+pandas
+matplotlib
+dvc
+streamlit==0.83.0
+awesome_streamlit==20200728.1
+shapely
+xgboost==1.4.2
+numpy
+seaborn
+-e .

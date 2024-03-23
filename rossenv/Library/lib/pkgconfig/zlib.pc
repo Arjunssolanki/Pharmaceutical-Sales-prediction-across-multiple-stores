@@ -1,0 +1,13 @@
+prefix=D:/Pharmaceutical/rossenv/Library
+exec_prefix=D:/Pharmaceutical/rossenv/Library
+libdir=D:/Pharmaceutical/rossenv/Library/lib
+sharedlibdir=D:/Pharmaceutical/rossenv/Library/lib
+includedir=D:/Pharmaceutical/rossenv/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
