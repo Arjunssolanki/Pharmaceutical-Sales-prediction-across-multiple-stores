@@ -1,10 +1,10 @@
 pandas
 matplotlib
 dvc
-streamlit==0.83.0
-awesome_streamlit==20200728.1
+streamlit
+awesome_streamlit
 shapely
-xgboost==1.4.2
+xgboost
 numpy
 seaborn
 -e .
