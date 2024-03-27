@@ -2,19 +2,20 @@ import pandas as pd
 import pickle
 import dvc.api
 from time import gmtime, strftime
-from app_logger import App_Logger
+from src.logger import logging
+from Scripts.app_logger import App_Logger
 from config import Config
 
 class FileHandler():
 
     def __init__(self):
-        # self.logger = App_Logger().get_logger(__name__)
+        #self.logger = App_Logger().get_logger(__name__)
         pass
 
     def to_csv(self, df, csv_path, index=False):
         try:
             df.to_csv(csv_path, index=index)
-            # self.logger.info(f'Csv file saved in {csv_path}.')
+            #logging.info(f'Csv file saved in {csv_path}.')
 
         except Exception:
             self.logger.exception('File saving failed.')

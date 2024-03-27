@@ -3,7 +3,7 @@ from pathlib import Path
 class Config:
   RANDOM_SEED = 90
   ASSETS_PATH = Path("../")
-  REPO = "~/Documents/Rossmann-Pharmaceuticals-Sales-Prediction"
+  REPO = "D:\Pharmaceutical"
   DATASET_FILE_PATH = "data/train.csv"
   DATASET_PATH = ASSETS_PATH / "data"
   FEATURES_PATH = ASSETS_PATH / "features"
