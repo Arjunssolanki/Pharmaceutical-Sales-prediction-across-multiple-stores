@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import numpy as np 
 import pandas as pd
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import LabelEncoder,StandardScaler
+from sklearn.preprocessing import OneHotEncoder,StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from src.exception import CustomException
@@ -35,7 +35,7 @@ class DataTransformation:
                 ('scalar',StandardScaler())])
             cat_pipeline=Pipeline(steps=[
                 ("imputer",SimpleImputer(strategy="most_frequent")),
-                ("Label_encoder",LabelEncoder()),
+                ("OneHotEncoder",OneHotEncoder()),
                 ("scaler",StandardScaler(with_mean=False))
                 ])
             logging.info(f"Categorical Columns:{categorical_columns}")
@@ -52,47 +52,47 @@ class DataTransformation:
             raise CustomException(e,sys)    
         
     def initiate_data_transormation(self,train_path,test_path): # output of data ingestion
-            try:
-                train_df=pd.read_csv(train_path)
-                test_df=pd.read_csv(test_path)
+        try:
+            train_df=pd.read_csv(train_path)
+            test_df=pd.read_csv(test_path)
 
-                logging.info("Reading the train and test file")
+            logging.info("Reading the train and test file")
 
-                preprocessing_obj=self.get_data_transformer_object()
+            preprocessing_obj=self.get_data_transformer_object()
                 
-                target_column_name=['Sales']
-                numerical_columns =['Customers',
-                                'CompetitionDistance', 'CompetitionOpenSinceMonth',
+            target_column_name='Sales'
+            numerical_columns =['Customers','CompetitionDistance', 'CompetitionOpenSinceMonth',
                                 'CompetitionOpenSinceYear', 'Promo2SinceWeek',
                                 'Promo2SinceYear']
-                ## divide the train dataset to independent and dependent feature
+            ## divide the train dataset to independent and dependent feature
 
-                input_features_train_df=train_df.drop(columns=[target_column_name],axis=1)
-                target_feature_train_df=train_df[target_column_name]
+            input_features_train_df=train_df.drop(columns=[target_column_name],axis=1)
+            target_feature_train_df=train_df[target_column_name]
                 
-                ## divide the test dataset to independent and dependent feature
-                input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
-                target_feature_test_df=test_df[target_column_name]
+            ## divide the test dataset to independent and dependent feature
+            input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
+            target_feature_test_df=test_df[target_column_name]
                 
-                logging.info("Applying Preprocessing on training and test dataframe")
+            logging.info("Applying Preprocessing on training and test dataframe")
                 
-                input_feature_train_arr=preprocessing_obj.fit_transform(input_features_train_df)
-                input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
+            input_feature_train_arr=preprocessing_obj.fit_transform(input_features_train_df)
+            input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
                 
-                 # now combining train and test data array (np.c_ is np.concatinate)
-                train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
-                test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
+            # now combining train and test data array (np.c_ is np.concatinate)
+            train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
+            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
                 
-                logging.info(f"Saved preprocessing object")
+            logging.info(f"Saved preprocessing object")
                 
-                save_object(
-                    file_path=self.data_transformation_config.preprocessor_obj_file_path,
-                    obj=preprocessing_obj
-                )
+            save_object(
+                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                obj=preprocessing_obj
+            )
                 
-                return (
-                    train_arr,test_arr,self.data_transformation_config.preprocessor_obj_file_path
+            return (
+                train_arr,test_arr,self.data_transformation_config.preprocessor_obj_file_path
                 )
                  
-            except Exception as e:
-                raise CustomException(sys,e)
+        except Exception as e:
+            raise CustomException(sys,e)
+            
